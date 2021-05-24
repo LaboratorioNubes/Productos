@@ -1,4 +1,4 @@
-package main.java.danmsproductos.danmsproductos.domain;
+package danmsproductos.danmsproductos.domain;
 
 public class Material {
 
