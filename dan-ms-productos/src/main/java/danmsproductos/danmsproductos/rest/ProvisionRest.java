@@ -1,11 +1,6 @@
 package danmsproductos.danmsproductos.rest;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.OptionalInt;
-import java.util.stream.IntStream;
-
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,65 +13,40 @@ import org.springframework.web.bind.annotation.RestController;
 
 import danmsproductos.danmsproductos.domain.Provision;
 import danmsproductos.danmsproductos.dtos.ProvisionDTO;
+import danmsproductos.danmsproductos.services.ProvisionService;
 
 @RestController
 @RequestMapping(ProvisionRest.API_PROVISION)
 public class ProvisionRest {
     static final String API_PROVISION = "/api/provision";
     
-    private static final List<Provision> listaProvisiones = new ArrayList<Provision>();
-    private static Integer ID_GEN = 1;
+    @Autowired
+    ProvisionService provService;
 
-    @GetMapping(path = "/{idProvision}")
-    public ResponseEntity<Provision> provisionPorId(@PathVariable Integer idProvision){
-
-        Optional<ProvisionDTO> p =  listaProvisiones
-                .stream()
-                .filter(unaProvision -> unaProvision.getId().equals(idProvision))
-                .findFirst();
-
-        return ResponseEntity.of(p);
+    @GetMapping(path = "/{id}")
+    public ResponseEntity<Provision> provisionPorId(@PathVariable Integer id){
+        return ResponseEntity.of(provService.buscarProvision(id));
     }
 
     @GetMapping
-    public ResponseEntity<List<ProvisionDTO>> todos(){
-        return ResponseEntity.ok(listaProvisiones);
+    public ResponseEntity<Iterable<Provision>> todos(){
+        return ResponseEntity.ok(provService.buscarProvisiones());
     }
 
     @PostMapping
-    public ResponseEntity<ProvisionDTO> crear(@RequestBody ProvisionDTO nuevo){
-    	System.out.println("Crear provision "+ nuevo);
-        nuevo.setId(ID_GEN++);
-        listaProvisiones.add(nuevo);
-        return ResponseEntity.ok(nuevo);
+    public ResponseEntity<String> crear(@RequestBody ProvisionDTO nuevo){
+        provService.guardarProvision(nuevo);
+        return ResponseEntity.ok("Provision creada con exito.");
     }
 
-    @PutMapping(path = "/{idProvision}")
-    public ResponseEntity<ProvisionDTO> actualizar(@RequestBody ProvisionDTO nuevo,  @PathVariable Integer idProvision) {
-        OptionalInt indexOpt =   IntStream.range(0, listaProvisiones.size())
-        .filter(i -> listaProvisiones.get(i).getId().equals(idProvision))
-        .findFirst();
-
-        if(indexOpt.isPresent()){
-            listaProvisiones.set(indexOpt.getAsInt(), nuevo);
-            return ResponseEntity.ok(nuevo);
-        } else {
-            return ResponseEntity.notFound().build();
-        }
+    @PutMapping(path = "/{id}")
+    public ResponseEntity<Provision> actualizar(@RequestBody ProvisionDTO nuevo,  @PathVariable Integer id) {
+        return ResponseEntity.of(provService.actualizarProvision(nuevo, id));
     }
 
-    @DeleteMapping(path = "/{idProvision}")
-    public ResponseEntity<ProvisionDTO> borrar(@PathVariable Integer idProvision){
-        OptionalInt indexOpt =   IntStream.range(0, listaProvisiones.size())
-        .filter(i -> listaProvisiones.get(i).getId().equals(idProvision))
-        .findFirst();
-
-        if(indexOpt.isPresent()){
-            listaProvisiones.remove(indexOpt.getAsInt());
-            return ResponseEntity.ok().build();
-        } else {
-            return ResponseEntity.notFound().build();
-        }
+    @DeleteMapping(path = "/{id}")
+    public ResponseEntity<Provision> borrar(@PathVariable Integer id){
+        provService.borrarProvision(id);
+        return ResponseEntity.ok().build();
     }
-
 }

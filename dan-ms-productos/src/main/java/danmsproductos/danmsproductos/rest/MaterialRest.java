@@ -23,7 +23,7 @@ public class MaterialRest {
     @Autowired
     MaterialService materialService;
 
-    @GetMapping(path = "/{idMaterial}")
+    @GetMapping(path = "/{id}")
     public ResponseEntity<Material> materialPorId(@PathVariable Integer id){
         return ResponseEntity.of(materialService.buscarMaterial(id));
     }
@@ -39,13 +39,14 @@ public class MaterialRest {
         return ResponseEntity.ok("Material creado con exito");
     }
 
-    @PutMapping(path = "/{idMaterial}")
+    @PutMapping(path = "/{id}")
     public ResponseEntity<Material> actualizar(@RequestBody MaterialDTO nuevo,  @PathVariable Integer id) {
        return ResponseEntity.of(materialService.actualizarMaterial(nuevo, id));
     }
 
-    @DeleteMapping(path = "/{idMaterial}")
-    public ResponseEntity<Material> borrar(@PathVariable Integer idMaterial){
+    @DeleteMapping(path = "/{id}")
+    public ResponseEntity<Material> borrar(@PathVariable Integer id){
+        materialService.borrarMaterial(id);
         return ResponseEntity.ok().build();
     }
 }
