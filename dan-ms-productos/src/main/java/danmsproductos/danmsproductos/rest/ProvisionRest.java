@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import danmsproductos.danmsproductos.domain.Provision;
+import danmsproductos.danmsproductos.dtos.ProvisionDTO;
 
 @RestController
 @RequestMapping(ProvisionRest.API_PROVISION)
@@ -29,7 +30,7 @@ public class ProvisionRest {
     @GetMapping(path = "/{idProvision}")
     public ResponseEntity<Provision> provisionPorId(@PathVariable Integer idProvision){
 
-        Optional<Provision> p =  listaProvisiones
+        Optional<ProvisionDTO> p =  listaProvisiones
                 .stream()
                 .filter(unaProvision -> unaProvision.getId().equals(idProvision))
                 .findFirst();
@@ -38,12 +39,12 @@ public class ProvisionRest {
     }
 
     @GetMapping
-    public ResponseEntity<List<Provision>> todos(){
+    public ResponseEntity<List<ProvisionDTO>> todos(){
         return ResponseEntity.ok(listaProvisiones);
     }
 
     @PostMapping
-    public ResponseEntity<Provision> crear(@RequestBody Provision nuevo){
+    public ResponseEntity<ProvisionDTO> crear(@RequestBody ProvisionDTO nuevo){
     	System.out.println("Crear provision "+ nuevo);
         nuevo.setId(ID_GEN++);
         listaProvisiones.add(nuevo);
@@ -51,7 +52,7 @@ public class ProvisionRest {
     }
 
     @PutMapping(path = "/{idProvision}")
-    public ResponseEntity<Provision> actualizar(@RequestBody Provision nuevo,  @PathVariable Integer idProvision) {
+    public ResponseEntity<ProvisionDTO> actualizar(@RequestBody ProvisionDTO nuevo,  @PathVariable Integer idProvision) {
         OptionalInt indexOpt =   IntStream.range(0, listaProvisiones.size())
         .filter(i -> listaProvisiones.get(i).getId().equals(idProvision))
         .findFirst();
@@ -65,7 +66,7 @@ public class ProvisionRest {
     }
 
     @DeleteMapping(path = "/{idProvision}")
-    public ResponseEntity<Provision> borrar(@PathVariable Integer idProvision){
+    public ResponseEntity<ProvisionDTO> borrar(@PathVariable Integer idProvision){
         OptionalInt indexOpt =   IntStream.range(0, listaProvisiones.size())
         .filter(i -> listaProvisiones.get(i).getId().equals(idProvision))
         .findFirst();
