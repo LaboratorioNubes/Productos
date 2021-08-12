@@ -3,12 +3,14 @@ package danmsproductos.danmsproductos.services.impl;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import danmsproductos.danmsproductos.domain.Provision;
 import danmsproductos.danmsproductos.dtos.ProvisionDTO;
 import danmsproductos.danmsproductos.repositories.ProvisionRepository;
 import danmsproductos.danmsproductos.services.ProvisionService;
 
+@Service
 public class ProvisionServiceImpl implements ProvisionService {
     
     @Autowired

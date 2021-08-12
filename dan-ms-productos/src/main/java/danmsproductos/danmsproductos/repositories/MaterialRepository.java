@@ -5,6 +5,7 @@ import org.springframework.stereotype.Repository;
 import danmsproductos.danmsproductos.domain.Material;
 import frsf.isi.dan.InMemoryRepository;
 
+@Repository
 public class MaterialRepository extends InMemoryRepository<Material>  {
 
     @Override

@@ -3,12 +3,14 @@ package danmsproductos.danmsproductos.services.impl;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import danmsproductos.danmsproductos.domain.Material;
 import danmsproductos.danmsproductos.dtos.MaterialDTO;
 import danmsproductos.danmsproductos.repositories.MaterialRepository;
 import danmsproductos.danmsproductos.services.MaterialService;
 
+@Service
 public class MaterialServiceImpl implements MaterialService {
 
     @Autowired
