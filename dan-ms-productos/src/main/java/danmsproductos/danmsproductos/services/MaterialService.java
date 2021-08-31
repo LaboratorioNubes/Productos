@@ -13,5 +13,7 @@ public interface MaterialService {
     public Material guardarMaterial(MaterialDTO p);
     public Optional<Material> actualizarMaterial(MaterialDTO p, Integer id);
     public void borrarMaterial(Integer id);
-
+    public Optional buscarMaterialPorPrecio(Integer price);
+    public Optional buscarMaterialPorRango(Integer min, Integer max);
+    
 }
