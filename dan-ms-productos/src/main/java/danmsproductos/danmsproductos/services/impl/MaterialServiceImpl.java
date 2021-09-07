@@ -45,5 +45,17 @@ public class MaterialServiceImpl implements MaterialService {
     public void borrarMaterial(Integer id) {
         this.materialRepo.deleteById(id);
     }
+
+    @Override
+    public Optional buscarMaterialPorPrecio(Integer price) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public Optional buscarMaterialPorRango(Integer min, Integer max) {
+        // TODO Auto-generated method stub
+        return null;
+    }
     
 }

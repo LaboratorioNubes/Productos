@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import danmsproductos.danmsproductos.domain.Material;
@@ -48,5 +50,19 @@ public class MaterialRest {
     public ResponseEntity<Material> borrar(@PathVariable Integer id){
         materialService.borrarMaterial(id);
         return ResponseEntity.ok().build();
+    }
+
+    // Consultar por nombre
+    @GetMapping(path = "/range")
+    @ResponseBody
+    public ResponseEntity<Iterable<Material>>materialPorRango(
+        @RequestParam(required = true) Integer min, @RequestParam(required = true) Integer max){
+        return ResponseEntity.of(materialService.buscarMaterialPorRango(min, max));
+    }
+    
+    @GetMapping(path = "/precio")
+    @ResponseBody
+    public ResponseEntity<Material> materialPorPrecio(@RequestParam(required = true) Integer price){
+        return ResponseEntity.of(materialService.buscarMaterialPorPrecio(price));
     }
 }
